@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>JavaScript</title>
+        <meta charset="utf-8"/>
+        <script>
+            //POST
+            function ajax() {
+                try {
+                    let xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function () {
+                        if (xhttp.readyState == 4) {
+                            let objeto = JSON.parse(xhttp.responseText);
+                                resposta.innerHTML = "Id: "+ objeto.id + "<br/>" + "Criado em: " + objeto.createdAt
+                        }
+                    };
+
+                    let usuario = {
+                        first_name: nome.value,
+                        email: email.value
+                    }
+                    xhttp.open('POST', 'https://reqres.in/api/users', true);
+                    xhttp.send(JSON.stringify(usuario));
+                } catch (e) {
+                    alert ('Erro na comunicação com o servidor');
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>JavaScript</h1>
+        <button onclick="ajax()">Carrega Dados</button>
+        <p id="resposta" style="border: thin solid black; padding:2ex"></p>
+        <form>
+            <label for="nome">Nome: </label> <input id="nome" type="text"/> <br/>
+            <label for="email">Email: </label><input id="email" type="text"/>
+        </form>
+    </body>
+</html>

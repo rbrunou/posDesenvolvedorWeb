@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>JavaScript</title>
+        <meta charset="utf-8"/>
+        <script>
+            function ajax() {
+                try {
+                    let xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function () {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200) {
+                                let usuario = JSON.parse(xhttp.responseText);
+                                nome.innerHTML = usuario.nome;
+                                idade.innerHTML = usuario.idade;
+                                filhos.innerHTML = usuario.filhos.map(
+                                    function(e){
+                                        return e.nome;
+                                    }
+                                ).join(", ");
+                            } else {
+                                console.warning('status: ' + xhttp.status);
+                            }
+                        }
+                    };
+
+                    xhttp.open('GET', 'dados.json', true);
+                    xhttp.send();
+                } catch (e) {
+                    alert ('Erro na comunicação com o servidor');
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>JavaScript</h1>
+        <button onclick="ajax()">Carrega Usuário</button>
+        <dl>
+            <dt>Nome:</dt> <dd id="nome"></dd>
+            <dt>Idade:</dt> <dd id="idade"></dd>
+            <dt>Filhos:</dt> <dd id="filhos"></dd>
+        </dl>
+    </body>
+</html>

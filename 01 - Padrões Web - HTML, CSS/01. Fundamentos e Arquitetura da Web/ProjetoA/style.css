@@ -1,0 +1,18 @@
+h1 {
+    color: red;
+}
+
+#tit_1 {
+    font-size: 40px;
+}
+
+.noticias {
+    font-family: arial;
+}
+p, h1 {
+    background-color: lightgray;
+}
+
+.destaque{
+    color:blue;
+}

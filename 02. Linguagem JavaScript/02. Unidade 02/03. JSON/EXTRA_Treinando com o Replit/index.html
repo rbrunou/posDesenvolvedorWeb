@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>JavaScript</title>
+        <meta charset="utf-8"/>
+        <script>
+            //POST
+            function enviar() {
+                try {
+                    let xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function () {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200){
+                                let objeto = xhttp.responseText;
+                                if (xhttp.responseText != JSON.stringify(usuario)){
+                                    enviar();
+                                }
+                                else {
+                                    resposta.innerHTML = "Salvo";
+                                }
+                            }
+                        }
+                    };
+
+                    let usuario = {
+                        nome: nome.value,
+                        email: email.value
+                    }
+                    xhttp.open('POST', 'https://nodedb.rbrunou.repl.co/write?key:'+key.value, true);
+                    xhttp.send(JSON.stringify(usuario));
+                } catch (e) {
+                    alert ('Erro na comunicação com o servidor');
+                }
+            }
+
+            function receber() {
+                try {
+                    let xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function () {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200){
+                                //let objeto = JSON.parse(xhttp.responseText);
+                                let objeto = xhttp.responseText;
+                                resposta.innerHTML = objeto;
+                                console.log(objeto);
+                            }
+                        }
+                    };
+
+                    xhttp.open('GET', 'https://nodedb.rbrunou.repl.co/read?key:'+key.value, true);
+                    xhttp.send();
+                } catch (e) {
+                    alert ('Erro na comunicação com o servidor');
+                }
+            }
+
+            function listar() {
+                try {
+                    let xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function () {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200){
+                                let objeto = xhttp.responseText;
+                                resposta.innerHTML = objeto;
+                            }
+                        }
+                    };
+
+                    xhttp.open('GET', 'https://nodedb.rbrunou.repl.co/list', true);
+                    xhttp.send();
+                } catch (e) {
+                    alert ('Erro na comunicação com o servidor');
+                }
+            }
+
+            function deletar() {
+                try {
+                    let xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function () {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200){
+                                console.log(xhttp.responseText);
+                            }
+                        }
+                    };
+
+                    xhttp.open('POST', 'https://nodedb.rbrunou.repl.co/delete?key:'+key.value, true);
+                    xhttp.send();
+                } catch (e) {
+                    alert ('Erro na comunicação com o servidor');
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>JavaScript</h1>
+        <form>   
+            <label for="nome">Nome: </label> <input id="nome" type="text"/> <br/><br/>
+            <label for="email">Email: </label><input id="email" type="email" 
+            placeholder="name@example.com"/><br/><br/>
+            <label for="key">ID: </label> <input id="key" type="text"/> <br/><br/>
+        </form>
+
+            <button onclick="enviar()">Enviar</button>
+            <button onclick="receber()">Receber</button>
+            <button onclick="listar()">Listar</button>
+            <button onclick="deletar()">Deletar</button>
+            <p id="resposta" style="border: thin solid black; padding:2ex"></p>      
+    </body>
+</html>
