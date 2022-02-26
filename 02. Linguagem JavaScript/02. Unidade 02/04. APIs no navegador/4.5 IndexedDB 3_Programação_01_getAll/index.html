@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>JavaScript</title>
+        <meta charset="utf-8"/>
+        <script>
+            let bd;
+            let reqBD = indexedDB.open('meuBD', 1); //cria o banco de dados com a versão 1
+            reqBD.onsuccess = () => { //testa se deu certo
+                bd = reqBD.result; 
+            };
+            reqBD.onerror = () => { //testa se deu erro
+                console.log(reqBD.error);
+            };
+            reqBD.onupgradeneeded = (e) => { // retorna qual a versao anterior
+                console.log(e.oldversion)
+                bd = reqBD.result;
+                if(!bd.objectStoreNames.contains('livros'))
+                    bd.createObjectStore('livros',{keyPath: 'id'});		//cria um objeto com nome livros e key baseada no id
+            }
+
+            onload = () => {
+                btnC.onclick = () => {         //ao clicar no botão, pegar os valores escritos no formulario
+                    let livro = {
+                        id: parseInt(idLivro.value),
+                        titulo: titulo.value,
+                        autor: autor.value
+                    }
+                    let transacaoBD = bd.transaction(['livros'], 'readwrite'); //abre um canal (transação) para um banco de dados específico com nome livros e comando de leitura e escrita (readwrite)
+                    let livrosOS = transacaoBD.objectStore('livros'); //retorno do acesso ao banco livros
+                    let reqOS = livrosOS.add(livro); //escreve no banco de dados
+                    reqOS.onsuccess = (e) => {
+                        console.log(reqOS.result); // retorno se deu certo
+                    };
+                    reqOS.onerror = (e) => {
+                        console.log(reqOS.error); // retorno se deu errado
+                    };
+                };
+
+                //forma reduzida de executar a mesma operação acima
+                btnR.onclick = () => {
+                    bd
+                      .transaction('livros')
+                      .objectStore('livros') //retorno do acesso ao banco livros
+                      .get(parseInt(idLivro.value)) //lê o campo de dados baseado no ID
+                      .onsuccess = (e) => {
+                        titulo.value = e.target.result.titulo;
+                        autor.value = e.target.result.autor;
+                      };
+                };
+
+                btnD.onclick = () => {
+                    bd
+                      .transaction(['livros'], 'readwrite')
+                      .objectStore('livros') //retorno do acesso ao banco livros
+                      .delete(parseInt(idLivro.value)) //deleta o campo de dados baseado no ID
+                      .onsuccess = (e) => {
+                        console.log('livro excluído');
+                      };
+                };
+
+                btnU.onclick = () => {
+                    let livro = {
+                        id: parseInt(idLivro.value),
+                        titulo: titulo.value,
+                        autor: autor.value
+                    }
+                    bd
+                      .transaction(['livros'], 'readwrite')
+                      .objectStore('livros') //retorno do acesso ao banco livros
+                      .put(livro) //edita um livro já criado anteriormente
+                      .onsuccess = (e) => {
+                        console.log('livro atualizado');
+                      };
+                };
+
+                btnL.onclick = () => {
+                    bd
+                      .transaction(['livros'], 'readonly')
+                      .objectStore('livros') //retorno do acesso ao banco livros
+                      .getAll(IDBKeyRange.bound(1, 2)) //edita um livro já criado anteriormente
+                      .onsuccess = (e) => {
+                        console.log(e.target.result);
+                      };
+                };
+
+            };
+        </script>
+    </head>
+    <body>
+        <h1>JavaScript</h1>
+        <p><label for="idLivro">ID: </label><input type="number" id="idLivro" /></p>
+        <p><label for="titulo">Título: </label><input type="text" id="titulo" /></p>
+        <p><label for="autor">Autor: </label><input type="text" id="autor" /></p>
+        <p>
+            <button id="btnC">Incluir</button>
+            <button id="btnR">Ler</button>
+            <button id="btnD">Excluir</button>
+            <button id="btnU">Atualizar</button>
+            <button id="btnL">Listagem</button>
+        </p>
+        <p id="output"></p>
+    </body>
+</html>
