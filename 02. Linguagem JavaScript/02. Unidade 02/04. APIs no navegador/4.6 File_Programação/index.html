@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>JavaScript</title>
+        <meta charset="utf-8"/>
+        <script>
+            onload = () => {
+                arquivos.onchange = () => {
+                    let fr = new FileReader();
+                    fr.readAsText(arquivos.files[0], 'UTF-8');
+                    fr.onload = (e) => {
+                        conteudo.innerHTML = e.target.result;
+                    }
+                    for(let i=0; i<arquivos.files.length; i++)
+                        arqs.innerHTML += arquivos.files[i].name + "<br/>";
+                };
+                btnArquivos.onclick = () => {
+                    arquivos.click();
+                };
+
+                imagem.onchange = () => {
+                    let fr = new FileReader();
+                    fr.readAsDataURL(imagem.files[0]);
+                    fr.onload = (e) => {
+                        output.innerHTML = 
+                        `<img src="${e.target.result}" />`;
+                    }
+                };
+                btnImagem.onclick = () => {
+                    imagem.click();
+                };
+
+
+            };
+        </script>
+    </head>
+    <body>
+        <h1>JavaScript</h1>
+        <p>
+            <input 
+                id="arquivos" 
+                multiple 
+                type="file" 
+                style="display:none" 
+                accept="text/plain" 
+            />
+            <button id="btnArquivos">Escolher arquivo de texto</button>
+        </p>
+        <p id="arqs"></p>
+        <p id="conteudo"></p>
+
+        <p>
+            <input 
+                id="imagem" 
+                type="file" 
+                style="display:none" 
+                accept="image/png" 
+            />
+            <button id="btnImagem">Escolher arquivo de imagem</button>
+        </p>
+        <p id="output"></p>
+    </body>
+</html>
