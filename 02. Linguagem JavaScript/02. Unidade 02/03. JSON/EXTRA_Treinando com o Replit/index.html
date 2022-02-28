@@ -27,7 +27,7 @@
                         nome: nome.value,
                         email: email.value
                     }
-                    xhttp.open('POST', 'https://nodedb.rbrunou.repl.co/write?key:'+key.value, true);
+                    xhttp.open('POST', 'https://nodedb.rbrunou.repl.co/write?key='+key.value, true);
                     xhttp.send(JSON.stringify(usuario));
                 } catch (e) {
                     alert ('Erro na comunicação com o servidor');
@@ -49,7 +49,7 @@
                         }
                     };
 
-                    xhttp.open('GET', 'https://nodedb.rbrunou.repl.co/read?key:'+key.value, true);
+                    xhttp.open('GET', 'https://nodedb.rbrunou.repl.co/read?key='+key.value, true);
                     xhttp.send();
                 } catch (e) {
                     alert ('Erro na comunicação com o servidor');
@@ -88,7 +88,7 @@
                         }
                     };
 
-                    xhttp.open('POST', 'https://nodedb.rbrunou.repl.co/delete?key:'+key.value, true);
+                    xhttp.open('POST', 'https://nodedb.rbrunou.repl.co/delete?key='+key.value, true);
                     xhttp.send();
                 } catch (e) {
                     alert ('Erro na comunicação com o servidor');

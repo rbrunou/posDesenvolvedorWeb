@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>JavaScript</title>
+        <meta charset="utf-8"/>
+        <style>
+            #desenho {
+                border: thin solid black;
+            }
+        </style>
+        <script>
+            onload = () => {
+                if (desenho.getContext) {
+                    let ctx = desenho.getContext('2d');
+                    ctx.fillRect(25,25,100,100);
+                    ctx.clearRect(45,45,60,60);
+                    ctx.strokeRect(50,50,50,50);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1> JavaScript</h1>
+        <canvas id="desenho" width="500" height="150"></canvas>
+    </body>
+</html>
