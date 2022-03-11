@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3JS</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script>
+        onload = () => {
+            d3.selectAll('p')
+              .data([10, 20, 30])
+        };
+    </script>
+</head>
+<body>
+    <h1>D3JS</h1>
+    <p id="destaque">Parágrafo em destaque</p>
+    <p>Segundo parágrafo</p>
+    <p>Terceiro parágrafo</p>
+</body>
+</html>
